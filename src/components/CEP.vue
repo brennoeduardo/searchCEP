@@ -1,84 +1,93 @@
 <template>
-    <main class="fatherInputs">
-        <h1>Busca de CEP</h1>
-        <form >
-            <v-text-field label="Digite seu CEP" v-model="adress.cep" 
-            outlined
-            clearable
-            required
-            style="width: 300px;
-            
-               "/>
-            <v-btn class="buttonSearchCEP" @click="searchCEP"><v-icon>mdi-magnify</v-icon></v-btn>
-        </form>
-        <div class="fatherInputs">
-            <v-text-field class="inputs" outlined label="Logradouro" v-model="adress.logradouro"></v-text-field>
-            <v-text-field class="inputs" outlined label="Bairro" v-model="adress.bairro"></v-text-field>
-            <v-text-field class="inputs" outlined label="Localidade" v-model="adress.localidade"></v-text-field>
-            <v-text-field class="inputs" outlined label="UF" v-model="adress.uf"></v-text-field>
+  <v-main class="">
+    <v-card class="mx-auto my-15 w-50 pa-10 effect-tr">
+      <h1 class="text-center ">Digite o CEP desejado</h1>
+      <v-form class="mt-10">
+        <div class="d-flex">
+            <v-text-field
+              label="Digite seu CEP"
+              v-model="address.cep"
+              outlined
+              class="w-50 mr-2"
+            />
+            <v-btn ripple size="55" rounded="1" color="transparent" @click="searchCEP">
+                <v-icon>mdi-magnify</v-icon>
+            </v-btn>
         </div>
-    </main>
+        <v-text-field
+          class="inputs"
+          outlined
+          label="Logradouro"
+          v-model="address.logradouro"
+        ></v-text-field>
+        <v-text-field
+          class="inputs"
+          outlined
+          label="Bairro"
+          v-model="address.bairro"
+        ></v-text-field>
+        <v-text-field
+          class="inputs"
+          outlined
+          label="Localidade"
+          v-model="address.localidade"
+        ></v-text-field>
+        <v-text-field
+          class="inputs"
+          outlined
+          label="UF"
+          v-model="address.uf"
+        ></v-text-field>
+      </v-form>
+    </v-card>
+  </v-main>
 </template>
 
 <script>
-    import axios from 'axios'
-    export default{
-        data(){
-            return{
-            adress: {
-                cep: '',
-                logradouro: '',
-                complemento: '',
-                bairro: '',
-                localidade: '',
-                uf: '',
-                pais: ''
-            }}
-        },
-        methods:{
-            searchCEP(){
-                
-                try{
-                    axios
-                    .get(`https://viacep.com.br/ws/${this.adress.cep}/json/`)
-                    .then(response => {
-                        this.adress = response.data
-                    })
-
-                }catch(error){
-                    console.log(error)
-                }
-            }
-        }
-    }
+import axios from "axios";
+export default {
+  data() {
+    return {
+      address: {
+        cep: null,
+        logradouro: null,
+        complemento: null,
+        bairro: null,
+        localidade: null,
+        uf: null,
+        pais: null,
+      },
+    };
+  },
+  methods: {
+    searchCEP() {
+      try {
+        if(!this.address.cep){ 
+            alert('Informe o CEP')
+            throw new Error('Informe o CEP')}
+        axios
+          .get(`https://viacep.com.br/ws/${this.address.cep}/json/`)
+          .then((response) => {
+            this.address = response.data;
+            console.log(this.address);
+          });
+      } catch (error) {
+        console.log(error);
+      }
+    },
+  },
+};
 </script>
 
-<style>
+<style scoped>
 
-h1{
-    font-size: 2rem;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-}
-
-.buttonSearchCEP{
-    background-color: blueviolet;
-    color: white;
-}
-.inputs{
-    width: 50%;
+h1 {
+  font-size: 2rem;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
 }
 
-form{
-    display: flex;
-    flex-direction: row;
+.effect-tr{
+    background-color: rgba(255, 255, 255, 0.904);
 }
-.fatherInputs{
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
 
-    width: 100%;
-}
 </style>
-

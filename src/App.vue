@@ -21,3 +21,12 @@ export default {
   }),
 }
 </script>
+
+<style scoped>
+
+* {
+  background: url('./assets/city2.jpg') no-repeat center center fixed;
+  background-size: cover;
+}
+
+</style>
